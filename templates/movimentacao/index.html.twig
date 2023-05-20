@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gerenciar Movimentações{% endblock %}
+
+{% block body %}
+    {{ include('components/TitleComponent.html.twig', {
+            'title': 'Movimentações'
+    }) }}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Descrição da movimentação</th>
+                <th>Quantia</th>
+                <th>Status</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for movimentacao in movimentacaos %}
+            <tr>
+                <td>{{ movimentacao.id }}</td>
+                <td>{{ movimentacao.descricaomovimentacao }}</td>
+                <td>{{ movimentacao.quantia }}</td>
+                <td>{{ movimentacao.status == 0 ? 'Entrada' : 'Saída' }}</td>
+                <td>
+                    <a href="{{ path('app_movimentacao_show', {'id': movimentacao.id}) }}">show</a>
+                    <a href="{{ path('app_movimentacao_edit', {'id': movimentacao.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" href="{{ path('app_movimentacao_new') }}">Create new</a>
+{% endblock %}
