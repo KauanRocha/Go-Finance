@@ -2,19 +2,19 @@
 
 namespace App\Form;
 
-use App\Entity\Categoria;
+use App\Entity\Category;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 
-class CategoriaType extends AbstractType
+class CategoryType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('descricaocategoria', TextType::class, [
+            ->add('descricao', TextType::class, [
                 'label' => 'Descrição da categoria',
             ]);
         ;
@@ -23,7 +23,7 @@ class CategoriaType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Categoria::class,
+            'data_class' => Category::class,
         ]);
     }
 }

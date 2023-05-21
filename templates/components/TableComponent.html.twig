@@ -1,0 +1,38 @@
+<table class="table table-dark table-striped text-center">
+    <thead>
+        <tr>
+            {% for title in titles %}
+                <th>{{ title }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+    {% for item in items %}
+        <tr>
+            <td>{{ item.descricao}}</td>
+            {% if (name == 'movimentacao') %}
+                <td>{{ item.valor }}</td>
+                <td>{{ item.status == 0 ? 'Entrada' : 'Saída' }}</td>
+            {% endif %}
+            <td>
+                <div class="dropdown">
+                    <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        Selecione uma ação
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" href="{{ path('app_'~ name ~'_show', {'id': item.id}) }}">Mostrar</a></li>  
+                        <li><a class="dropdown-item" href="{{ path('app_'~ name ~'_edit', {'id': item.id}) }}">Editar</a></li>  
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<a class="link link-success" href="{{ path('app_'~ name ~'_new') }}">Criar nova</a>
+
+{# Table head vai receber a descrição, a quantia, o status e as ações #}
+{# Table body  vai receber descricao, quantia, status, os links de ação vão receber os paths e os ids #}
+{# Vamos receber um array de titles #}
+{# Toda tabela deverá ter um nome #}

@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gerenciar Categorias{% endblock %}
+
+{% block body %}
+    <div class="d-flex flex-column justify-content-center align-items-center">
+        
+        {{ include('components/TitleComponent.html.twig', {
+            'title': 'Categorias'
+        }) }}
+
+        {{
+            include('components/TableComponent.html.twig', {
+                'name': 'categoria',
+                'titles': ['Descrição da Categoria', 'Ações'],
+                'items': categorias
+            })
+        }}
+
+    </div>
+{% endblock %}

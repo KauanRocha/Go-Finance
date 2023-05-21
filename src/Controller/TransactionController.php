@@ -2,30 +2,30 @@
 
 namespace App\Controller;
 
-use App\Entity\Movimentacao;
-use App\Form\MovimentacaoType;
-use App\Repository\MovimentacaoRepository;
+use App\Entity\Transactions;
+use App\Form\TransactionType;
+use App\Repository\TransactionsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/movimentacao')]
-class MovimentacaoController extends AbstractController
+class TransactionController extends AbstractController
 {
     #[Route('/', name: 'app_movimentacao_index', methods: ['GET'])]
-    public function index(MovimentacaoRepository $movimentacaoRepository): Response
+    public function index(TransactionsRepository $movimentacaoRepository): Response
     {
         return $this->render('movimentacao/index.html.twig', [
-            'movimentacaos' => $movimentacaoRepository->findAll(),
+            'transactions' => $movimentacaoRepository->findAll(),
         ]);
     }
 
     #[Route('/new', name: 'app_movimentacao_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, MovimentacaoRepository $movimentacaoRepository): Response
+    public function new(Request $request, TransactionsRepository $movimentacaoRepository): Response
     {
-        $movimentacao = new Movimentacao();
-        $form = $this->createForm(MovimentacaoType::class, $movimentacao);
+        $movimentacao = new Transactions();
+        $form = $this->createForm(TransactionType::class, $movimentacao);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -41,7 +41,7 @@ class MovimentacaoController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_movimentacao_show', methods: ['GET'])]
-    public function show(Movimentacao $movimentacao): Response
+    public function show(Transactions $movimentacao): Response
     {
         return $this->render('movimentacao/show.html.twig', [
             'movimentacao' => $movimentacao,
@@ -49,9 +49,9 @@ class MovimentacaoController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_movimentacao_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Movimentacao $movimentacao, MovimentacaoRepository $movimentacaoRepository): Response
+    public function edit(Request $request, Transactions $movimentacao, TransactionsRepository $movimentacaoRepository): Response
     {
-        $form = $this->createForm(MovimentacaoType::class, $movimentacao);
+        $form = $this->createForm(TransactionType::class, $movimentacao);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -67,7 +67,7 @@ class MovimentacaoController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_movimentacao_delete', methods: ['POST'])]
-    public function delete(Request $request, Movimentacao $movimentacao, MovimentacaoRepository $movimentacaoRepository): Response
+    public function delete(Request $request, Transactions $movimentacao, TransactionsRepository $movimentacaoRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$movimentacao->getId(), $request->request->get('_token'))) {
             $movimentacaoRepository->remove($movimentacao, true);

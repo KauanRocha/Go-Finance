@@ -2,30 +2,30 @@
 
 namespace App\Controller;
 
-use App\Entity\Categoria;
-use App\Form\CategoriaType;
-use App\Repository\CategoriaRepository;
+use App\Entity\Category;
+use App\Form\CategoryType;
+use App\Repository\CategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/categoria')]
-class CategoriaController extends AbstractController
+class CategoryController extends AbstractController
 {
     #[Route('/', name: 'app_categoria_index', methods: ['GET'])]
-    public function index(CategoriaRepository $categoriaRepository): Response
+    public function index(CategoryRepository $categoriaRepository): Response
     {
-        return $this->render('categoria/index.html.twig', [
+        return $this->render('category/index.html.twig', [
             'categorias' => $categoriaRepository->findAll(),
         ]);
     }
 
     #[Route('/new', name: 'app_categoria_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, CategoriaRepository $categoriaRepository): Response
+    public function new(Request $request, CategoryRepository $categoriaRepository): Response
     {
-        $categorium = new Categoria();
-        $form = $this->createForm(CategoriaType::class, $categorium);
+        $categorium = new Category();
+        $form = $this->createForm(CategoryType::class, $categorium);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -34,24 +34,24 @@ class CategoriaController extends AbstractController
             return $this->redirectToRoute('app_categoria_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('categoria/new.html.twig', [
+        return $this->renderForm('category/new.html.twig', [
             'categorium' => $categorium,
             'form' => $form,
         ]);
     }
 
     #[Route('/{id}', name: 'app_categoria_show', methods: ['GET'])]
-    public function show(Categoria $categorium): Response
+    public function show(Category $categorium): Response
     {
-        return $this->render('categoria/show.html.twig', [
+        return $this->render('category/show.html.twig', [
             'categorium' => $categorium,
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_categoria_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Categoria $categorium, CategoriaRepository $categoriaRepository): Response
+    public function edit(Request $request, Category $categorium, CategoryRepository $categoriaRepository): Response
     {
-        $form = $this->createForm(CategoriaType::class, $categorium);
+        $form = $this->createForm(CategoryType::class, $categorium);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -60,14 +60,14 @@ class CategoriaController extends AbstractController
             return $this->redirectToRoute('app_categoria_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('categoria/edit.html.twig', [
+        return $this->renderForm('category/edit.html.twig', [
             'categorium' => $categorium,
             'form' => $form,
         ]);
     }
 
     #[Route('/{id}', name: 'app_categoria_delete', methods: ['POST'])]
-    public function delete(Request $request, Categoria $categorium, CategoriaRepository $categoriaRepository): Response
+    public function delete(Request $request, Category $categorium, CategoryRepository $categoriaRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$categorium->getId(), $request->request->get('_token'))) {
             $categoriaRepository->remove($categorium, true);
