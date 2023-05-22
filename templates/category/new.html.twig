@@ -8,10 +8,7 @@
             'title': 'Criar nova categoria'
         }) }}
 
-        {{ include('category/_form.html.twig') }}
-
-        <div class="mt-3">
-            <a class="link link-primary" href="{{ path('app_categoria_index') }}">Voltar para Home</a>
-        </div>
+        {{ include('components/_form.html.twig', {'button_label': 'Criar',
+         'name': 'categoria'} )}}
     </div>
 {% endblock %}

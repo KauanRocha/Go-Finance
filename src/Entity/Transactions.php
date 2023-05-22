@@ -95,6 +95,12 @@ class Transactions
         return $this->deleted_at;
     }
 
+    public function __toString()
+    {
+        // Retorne uma string que represente o objeto Category
+        return $this->category; // Exemplo: retornar o nome da categoria como string
+    }
+
     public function getCategory(): ?Category
     {
         return $this->category;

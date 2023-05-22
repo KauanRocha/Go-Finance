@@ -1,38 +1,81 @@
-<table class="table table-dark table-striped text-center">
-    <thead>
-        <tr>
-            {% for title in titles %}
-                <th>{{ title }}</th>
-            {% endfor %}
-        </tr>
-    </thead>
-    <tbody>
-    {% for item in items %}
-        <tr>
-            <td>{{ item.descricao}}</td>
-            {% if (name == 'movimentacao') %}
-                <td>{{ item.valor }}</td>
-                <td>{{ item.status == 0 ? 'Entrada' : 'Saída' }}</td>
-            {% endif %}
-            <td>
-                <div class="dropdown">
-                    <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                        Selecione uma ação
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" href="{{ path('app_'~ name ~'_show', {'id': item.id}) }}">Mostrar</a></li>  
-                        <li><a class="dropdown-item" href="{{ path('app_'~ name ~'_edit', {'id': item.id}) }}">Editar</a></li>  
-                    </ul>
-                </div>
-            </td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+<style>
+    .zoom-effect {
+        transition: transform 0.3s;
+    }
 
-<a class="link link-success" href="{{ path('app_'~ name ~'_new') }}">Criar nova</a>
+    .zoom-effect:hover {
+        transform: scale(1.05);
+    }
+    .titulo-tabela {
+        font-size: 1.6rem; /* Tamanho da fonte desejado */
+        font-weight: bold; /* Opcional: para tornar o título em negrito */
+    }
+</style>
 
-{# Table head vai receber a descrição, a quantia, o status e as ações #}
-{# Table body  vai receber descricao, quantia, status, os links de ação vão receber os paths e os ids #}
+{% set name2 = name|capitalize %}
+
+{% if (name == 'movimentacao') %}
+{% set name2 = 'Movimentação' %}
+{% set items = items|sort((a, b) => a.date <=> b.date) %}
+
+{% endif %}
+
+
+{% set statusClass = ""%}
+<div class="container">
+
+        <div class="d-flex align-items-center mb-4">
+            <a class="btn btn-block link btn-success" href="{{ path('app_'~ name ~'_new') }}">Nova {{name2}}</a>
+        </div>
+
+        <div>
+            <table class="table table-hover mb-3 pb-4 text-center ">
+                    <tr class="table-dark titulo-tabela">
+                        {% for title in titles %}
+                            <th scope="col">{{ title }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                {% for item in items %}
+                {% if (name == 'movimentacao') %}
+                {% set statusClass = item.status == '0' ? 'bg-success zoom-effect' : 'bg-danger zoom-effect' %}            
+                        <tr scope="row" class="table-sm {{statusClass}}">
+                            <th>{{ item.descricao}}</td>
+                            <td>{{ item.valor | number_format(2, ',', '.')}}</td>
+                            <td>{{ item.status == 0 ? 'Entrada' : 'Saída' }}</td>
+                            <td>{{ item.category.descricao}}</td>
+                            <td>{{ item.date.format('d/m/Y') }}</td>
+
+                        
+                {% else %}
+                <tr scope="row" class="table-sm">
+                    <th>{{ item.descricao}}</td>
+                {% endif %}
+                        <td class="col-3">
+                            <div class="row d-flex">
+
+                                <a class="btn bg-{{statusClass}} link col" href="{{ path('app_' ~ name ~ '_edit', {'id': item.id}) }}">Editar</a>
+
+                                <form id="excluirlinha" class="btn bg-{{statusClass}} col" 
+                                method="post" action="{{ path('app_' ~ name ~ '_delete', {'id': item.id}) }}" 
+                                onsubmit="return confirm('Tem certeza de que deseja excluir este item?');">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ item.id) }}">
+                                    <a class="btn btn-sm bg-{{statusClass}} link col"  
+                                    onclick="document.getElementById('excluirlinha').submit();">Excluir</a>
+                                </form>
+                            </div>
+                        </td>
+                    
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+</div>
+
+
+{# Table head vai receber a descrição, a quantia, o status , date e as ações #}
+{# Table body  vai receber descricao, quantia, status, date, os links de ação vão receber os paths e os ids #}
 {# Vamos receber um array de titles #}
 {# Toda tabela deverá ter um nome #}

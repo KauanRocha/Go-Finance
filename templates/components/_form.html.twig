@@ -1,0 +1,16 @@
+{{ form_start(form) }}
+    <div >
+        <div>
+        {{ form_widget(form) }}
+        </div>
+        <div class="d-flex justify-content-between">
+            <div>
+            <button class="btn btn-success">{{ button_label|default('Criar') }}</button>
+            </div>
+
+            <div>
+            <a class="btn btn-primary " href="{{ path('app_' ~ name ~ '_index') }}">Volte para a lista</a>
+            </div>
+        </div>
+    </div>
+{{ form_end(form) }}

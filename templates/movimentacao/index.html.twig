@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Gerenciar Movimentações{% endblock %}
+{% block title %}Go Movimentações{% endblock %}
 
 {% block body %}
     {{ include('components/TitleComponent.html.twig', {
@@ -10,7 +10,7 @@
     {{
         include('components/TableComponent.html.twig', {
             'name': 'movimentacao',
-            'titles': ['Descrição da movimentação', 'Quantia', 'Status', 'Ações'],
+            'titles': ['Descrição da movimentação', 'Valor', 'Status', 'Categoria', 'Data', 'Ações'],
             'items': transactions
         })
     }}
