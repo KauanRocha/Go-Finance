@@ -40,13 +40,6 @@ class TransactionController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_movimentacao_show', methods: ['GET'])]
-    public function show(Transactions $movimentacao): Response
-    {
-        return $this->render('movimentacao/show.html.twig', [
-            'movimentacao' => $movimentacao,
-        ]);
-    }
 
     #[Route('/{id}/edit', name: 'app_movimentacao_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Transactions $movimentacao, TransactionsRepository $movimentacaoRepository): Response

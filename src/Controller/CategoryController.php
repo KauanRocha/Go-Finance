@@ -9,19 +9,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+
 
 #[Route('/categoria')]
 class CategoryController extends AbstractController
 {
+    
     #[Route('/', name: 'app_categoria_index', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function index(CategoryRepository $categoriaRepository): Response
     {
+        // restrigir apenas para os ROLE_USER
         return $this->render('category/index.html.twig', [
             'categorias' => $categoriaRepository->findAll(),
         ]);
     }
 
     #[Route('/new', name: 'app_categoria_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function new(Request $request, CategoryRepository $categoriaRepository): Response
     {
         $categorium = new Category();
@@ -41,6 +47,8 @@ class CategoryController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_categoria_show', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+
     public function show(Category $categorium): Response
     {
         return $this->render('category/show.html.twig', [
@@ -49,6 +57,7 @@ class CategoryController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_categoria_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function edit(Request $request, Category $categorium, CategoryRepository $categoriaRepository): Response
     {
         $form = $this->createForm(CategoryType::class, $categorium);
@@ -67,6 +76,7 @@ class CategoryController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_categoria_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
     public function delete(Request $request, Category $categorium, CategoryRepository $categoriaRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$categorium->getId(), $request->request->get('_token'))) {
