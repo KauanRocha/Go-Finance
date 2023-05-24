@@ -5,7 +5,3 @@ controllers:
 kernel:
     resource: ../src/Kernel.php
     type: annotation
-
-app_logout:
-    path: /logout
-    methods: GET

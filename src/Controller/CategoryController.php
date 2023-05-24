@@ -9,17 +9,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
-
 
 #[Route('/categoria')]
+
 class CategoryController extends AbstractController
 {
     
     #[Route('/', name: 'app_categoria_index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
     public function index(CategoryRepository $categoriaRepository): Response
     {
+        $this->denyAccessUnlessGranted("ROLE_USER");
+
         // restrigir apenas para os ROLE_USER
         return $this->render('category/index.html.twig', [
             'categorias' => $categoriaRepository->findAll(),
@@ -27,9 +27,9 @@ class CategoryController extends AbstractController
     }
 
     #[Route('/new', name: 'app_categoria_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
     public function new(Request $request, CategoryRepository $categoriaRepository): Response
     {
+        $this->denyAccessUnlessGranted("ROLE_USER");
         $categorium = new Category();
         $form = $this->createForm(CategoryType::class, $categorium);
         $form->handleRequest($request);
@@ -47,19 +47,19 @@ class CategoryController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_categoria_show', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
 
     public function show(Category $categorium): Response
     {
+        $this->denyAccessUnlessGranted("ROLE_USER");
         return $this->render('category/show.html.twig', [
             'categorium' => $categorium,
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_categoria_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
     public function edit(Request $request, Category $categorium, CategoryRepository $categoriaRepository): Response
     {
+        $this->denyAccessUnlessGranted("ROLE_USER");
         $form = $this->createForm(CategoryType::class, $categorium);
         $form->handleRequest($request);
 
@@ -76,9 +76,9 @@ class CategoryController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_categoria_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_USER')]
     public function delete(Request $request, Category $categorium, CategoryRepository $categoriaRepository): Response
     {
+        $this->denyAccessUnlessGranted("ROLE_USER");
         if ($this->isCsrfTokenValid('delete'.$categorium->getId(), $request->request->get('_token'))) {
             $categoriaRepository->remove($categorium, true);
         }

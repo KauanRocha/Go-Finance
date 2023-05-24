@@ -1,6 +1,6 @@
 
 <nav class='navbar navbar-expand navbar-dark bg-dark'>
-    <div class='container'>
+    <div class='container-fluid d-flex justify-content-between'>
         <a class='navbar-brand' href='{{ path('app_home')}}'>Go Finance</a>
         {% if is_granted('ROLE_USER') %}
         <div class='collapse navbar-collapse'>
@@ -14,16 +14,29 @@
                 <li class='nav-iten'>
                     <a class='nav-link' href='{{ path('app_logout')}}'>Sair</a>
                 </li>
+                 
+                {% endif %}
+       </div>
+    
                 {% if is_granted('ROLE_USER') %}
-
-                        <li class='nav-iten'>
+                <div class='collapse navbar-collapse'>
+                    <ul class='navbar-nav'>
+                        <li class='nav-iten "d-flex justify-content-end pt-3"'>
                             <a class='nav-link' href='{{ path('app_logout')}}'>Usuário: {{app.user.name}}</a>
                         </li>
+                    </ul>
+                </div>
+                
+                {% else %}
+                <div class='collapse navbar-collapse'>
+                    <ul class='navbar-nav'>
+                        <li class='nav-iten "d-flex justify-content-end pt-3"'>
+                            <a class='nav-link' href='{{ path('app_login')}}'>Login</a>
+                        </li>
+                    </ul>
+                </div>
     
                 {% endif %}
-                
-            </ul>             
-        </div>
-        {% endif %}
+            </ul>         
     </div>
 </nav>
