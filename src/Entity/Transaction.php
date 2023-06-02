@@ -9,6 +9,8 @@ use App\Entity\User;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 #[ORM\Entity(repositoryClass: TransactionRepository::class)]
 class Transaction
@@ -16,35 +18,45 @@ class Transaction
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("api_list")]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups("api_list")]
     private ?string $descricao = null;
 
     #[ORM\Column]
+    #[Groups("api_list")]
     private ?float $valor = null;
 
     #[ORM\Column]
+    #[Groups("api_list")]
     private ?bool $status = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups("api_list")]
     private ?\DateTimeInterface $data = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Gedmo\Timestampable(on: "create")]
+    #[Groups("api_list")]
     private ?\DateTimeInterface $created_at = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Gedmo\Timestampable(on: "update")]
+    #[Groups("api_list")]
     private ?\DateTimeInterface $updated_at = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups("api_list")]
     private ?\DateTimeImmutable $deleted_at = null;
 
     #[ORM\ManyToOne(inversedBy: 'transactions')]
+    #[Groups("api_list")]
     private ?Category $category = null;
 
     #[ORM\ManyToOne(inversedBy: 'transactions')]
+    #[Groups("api_list")]
     private ?User $user_id = null;
 
     public function getId(): ?int
@@ -100,14 +112,14 @@ class Transaction
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?\DateTime
     {
         return $this->created_at;
     }
 
 
 
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTime
     {
         return $this->updated_at;
     }
