@@ -6,32 +6,19 @@ use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
-#[UniqueEntity(fields:"descricao", message:"Tente criar uma categoria com outro nome, essa categoria já existe!")]
-
 class Category
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-
     private ?int $id = null;
-    #[Assert\Type('string')]
-    #[Assert\NotBlank]
-    #[Assert\Length(
-        min: 4,
-        max: 50,
-        minMessage: 'Sua categoria deve ter no mínino {{ limit }} caracteres',
-        maxMessage: 'Sua categoria deve ter no máximo {{ limit }} caracteres',
-    )]
-    #[ORM\Column(length: 255, unique:true)]
 
+    #[ORM\Column(length: 255)]
     private ?string $descricao = null;
 
-    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Transactions::class)]
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Transaction::class)]
     private Collection $transactions;
 
     public function __construct()
@@ -57,14 +44,14 @@ class Category
     }
 
     /**
-     * @return Collection<int, Transactions>
+     * @return Collection<int, Transaction>
      */
     public function getTransactions(): Collection
     {
         return $this->transactions;
     }
 
-    public function addTransaction(Transactions $transaction): self
+    public function addTransaction(Transaction $transaction): self
     {
         if (!$this->transactions->contains($transaction)) {
             $this->transactions->add($transaction);
@@ -74,7 +61,7 @@ class Category
         return $this;
     }
 
-    public function removeTransaction(Transactions $transaction): self
+    public function removeTransaction(Transaction $transaction): self
     {
         if ($this->transactions->removeElement($transaction)) {
             // set the owning side to null (unless already changed)

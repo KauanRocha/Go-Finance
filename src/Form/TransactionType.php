@@ -2,15 +2,19 @@
 
 namespace App\Form;
 
-use App\Entity\Transactions;
+use App\Entity\Transaction;
+use App\Entity\User;
 use App\Entity\Category;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+
+
 
 class TransactionType extends AbstractType
 {
@@ -35,7 +39,7 @@ class TransactionType extends AbstractType
                 'choice_label' => 'descricao',
                 'label' => 'Categoria'
             ])
-            ->add('date', DateType::class, [
+            ->add('data', DateType::class, [
                 'label' => 'Data',
                 'widget' => 'single_text',
                 'html5' => true,
@@ -46,7 +50,8 @@ class TransactionType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Transactions::class,
+            'data_class' => Transaction::class,
+            'user_id' => null
         ]);
     }
 }

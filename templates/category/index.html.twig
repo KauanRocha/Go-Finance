@@ -4,6 +4,10 @@
 
 {% block body %}
     <div class="d-flex flex-column justify-content-center align-items-center">
+
+    
+{{ errorMessage is defined ? errorMessage : '' }}
+
         
         {{ include('components/TitleComponent.html.twig', {
             'title': 'Categorias'
@@ -12,7 +16,7 @@
         {{
             include('components/TableComponent.html.twig', {
                 'name': 'categoria',
-                'titles': ['Descrição da Categoria', 'Ações'],
+                'titles': ['Descrição da Categoria'],
                 'items': categorias
             })
         }}
